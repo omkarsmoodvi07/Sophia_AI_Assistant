@@ -1,0 +1,15 @@
+﻿
+docker-compose.yml:1:name: "memoh"
+docker-compose.yml:7:      POSTGRES_DB: memoh
+docker-compose.yml:8:      POSTGRES_USER: memoh
+docker-compose.yml:9:      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-memoh123}
+docker-compose.yml:28:      POSTGRES_DB: memoh_vector
+docker-compose.yml:29:      POSTGRES_USER: memoh
+docker-compose.yml:30:      POSTGRES_PASSWORD: ${PGVECTOR_PASSWORD:-${POSTGRES_PASSWORD:-memoh123}}
+docker-compose.yml:51:      - memoh_data:/opt/sophia/data
+docker-compose.yml:87:      - memoh_data:/opt/sophia/data
+docker-compose.yml:129:      - memoh_data:/opt/sophia/data
+docker-compose.yml:182:      DATABASE_URL: "postgres://memoh:${POSTGRES_PASSWORD:-memoh123}@postgres:5432/memoh?sslmode=disable&search_path=connect_it"
+docker-compose.yml:233:  memoh_data:
+
+

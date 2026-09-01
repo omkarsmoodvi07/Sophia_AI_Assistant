@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: sophia.cn/library/postgres:18-alpine
+  pgvector:
+    image: sophia.cn/pgvector/pgvector:pg18
+  migrate:
+    image: sophia.cn/sophiaai/server:latest
+  server:
+    image: sophia.cn/sophiaai/server:latest
+  web:
+    image: sophia.cn/sophiaai/web:latest

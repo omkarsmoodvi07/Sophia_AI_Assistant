@@ -1,0 +1,98 @@
+# Sophia development configuration
+# Connects to devenv/docker-compose.yml infrastructure
+
+[log]
+level = "debug"
+format = "text"
+
+[server]
+addr = ":8080"
+rpc_listen_addr = ":9090"
+
+[channel]
+addr = ":8081"
+rpc_listen_addr = ":9091"
+
+[internal_rpc]
+server_target = "server:9090"
+channel_target = "channel:9091"
+shared_secret = "sophia-dev-internal-rpc-secret"
+
+[admin]
+username = "admin"
+password = "admin123"
+email = "dev@sophia.local"
+
+[auth]
+jwt_secret = "sophia-dev-secret-do-not-use-in-production"
+jwt_expires_in = "168h"
+
+timezone = "UTC"
+
+[database]
+# Sophia now supports PostgreSQL only.
+driver = "postgres"
+
+[container]
+# Development runs nested containerd inside the server container, matching the
+# production Docker Compose image.
+backend = "containerd"
+# registry = "sophia.cn"  # Uncomment for China mainland mirror
+default_image = "sophiaai/workspace:debian"
+image_pull_policy = "if_not_present"
+# containerd snapshotter and CNI settings for bot workspace containers.
+snapshotter = "overlayfs"
+data_root = "/opt/sophia/data"
+bridge_path = "/opt/sophia/runtime/bridge"
+cni_bin_dir = "/opt/cni/bin"
+cni_conf_dir = "/etc/cni/net.d"
+
+[containerd]
+# Embedded containerd socket inside the dev server container.
+socket_path = "/run/containerd/containerd.sock"
+namespace = "default"
+
+[docker]
+# Used only when [container].backend = "docker"; the dev Compose stack uses containerd.
+host = ""
+
+[postgres]
+host = "postgres"
+port = 5432
+user = "sophia"
+password = "sophia123"
+database = "sophia"
+sslmode = "disable"
+
+[pgvector]
+enabled = true
+host = "127.0.0.1"
+port = 5433
+user = "sophia"
+password = "sophia123"
+database = "sophia_vector"
+sslmode = "disable"
+
+[registry]
+providers_dir = "conf/providers"
+
+[supermarket]
+base_url = "https://supermarket.sophia.ai"
+
+[connect_it]
+# The Connect-It dev service is available at http://localhost:18421.
+# `mise run dev` shares one fixed bootstrap token between both sides: the
+# Connect-It container seeds it at startup and the Sophia server presents it.
+# If that token was revoked through the Connect-It admin UI, rotate it once:
+#   SOPHIA_CONNECT_IT_API_TOKEN=cit_<64 hex chars> mise run dev
+# The new value is seeded as a fresh token; the revoked one stays revoked.
+# These empty values are overridden by the dev Compose environment.
+base_url = ""
+api_token = ""
+
+[oauth_clients]
+config_path = "conf/oauth-clients.toml"
+
+[web]
+host = "0.0.0.0"
+port = 8082

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "${SOPHIA_TOOLKIT_DIR:-/opt/sophia/toolkit}/bin/python3" "$@"

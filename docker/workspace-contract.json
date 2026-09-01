@@ -1,0 +1,11 @@
+{
+  "contract_version": 1,
+  "platform": {
+    "os": "linux",
+    "libc": "glibc"
+  },
+  "paths": {
+    "toolkit": "/opt/sophia/toolkit",
+    "scripts": "/opt/sophia/scripts"
+  }
+}

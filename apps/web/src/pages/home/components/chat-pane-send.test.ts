@@ -1,0 +1,75 @@
+import { describe, expect, it } from 'vitest'
+import {
+  captureChatPaneSendContext,
+  matchesChatPaneSendContext,
+  shouldRefreshACPComposerConfig,
+} from './chat-pane-send'
+
+describe('chat pane send context', () => {
+  it('keeps the original target after an ephemeral pane is repointed', () => {
+    const target = {
+      botId: 'bot-1',
+      sessionId: 'session-a',
+      viewId: 'chat:1',
+    }
+    const context = captureChatPaneSendContext(target, 'bot-1:chat:1')
+
+    target.sessionId = 'session-b'
+
+    expect(context.target).toEqual({
+      botId: 'bot-1',
+      sessionId: 'session-a',
+      viewId: 'chat:1',
+    })
+    expect(Object.isFrozen(context.target)).toBe(true)
+  })
+
+  it('restores a failed attachment conversion only into the original composer', () => {
+    const context = captureChatPaneSendContext({
+      botId: 'bot-1',
+      sessionId: 'session-a',
+      viewId: 'chat:1',
+    }, 'bot-1:chat:1')
+
+    expect(matchesChatPaneSendContext(context, {
+      botId: 'bot-1',
+      sessionId: 'session-a',
+      viewId: 'chat:1',
+    }, 'bot-1:chat:1')).toBe(true)
+    expect(matchesChatPaneSendContext(context, {
+      botId: 'bot-1',
+      sessionId: 'session-b',
+      viewId: 'chat:1',
+    }, 'bot-1:chat:1')).toBe(false)
+    expect(matchesChatPaneSendContext(context, {
+      botId: 'bot-1',
+      sessionId: 'session-a',
+      viewId: 'chat:2',
+    }, 'bot-1:chat:2')).toBe(false)
+  })
+
+  it.each([
+    'acp.model_unavailable',
+    'acp.reasoning_effort_unavailable',
+  ])('refreshes ACP config after stale selection error %s', (errorCode) => {
+    expect(shouldRefreshACPComposerConfig({
+      ok: false,
+      stage: 'startup',
+      errorCode,
+    }, true)).toBe(true)
+  })
+
+  it('does not refresh ACP config for unrelated or inactive failures', () => {
+    expect(shouldRefreshACPComposerConfig({
+      ok: false,
+      stage: 'startup',
+      errorCode: 'acp.config_update_failed',
+    }, true)).toBe(false)
+    expect(shouldRefreshACPComposerConfig({
+      ok: false,
+      stage: 'startup',
+      errorCode: 'acp.model_unavailable',
+    }, false)).toBe(false)
+    expect(shouldRefreshACPComposerConfig({ ok: true }, true)).toBe(false)
+  })
+})

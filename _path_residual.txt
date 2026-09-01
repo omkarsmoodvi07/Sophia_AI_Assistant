@@ -1,0 +1,118 @@
+﻿
+.github\workflows\docker.yml:204:            grep -q "\"contract_version\": 1" /opt/sophia/workspace-contract.json
+.github\workflows\docker.yml:209:            test -x /opt/sophia/toolkit/bin/codex
+.github\workflows\docker.yml:210:            test -x /opt/sophia/toolkit/bin/codex-acp
+.github\workflows\docker.yml:211:            test -x /opt/sophia/toolkit/bin/claude-agent-acp
+.github\workflows\docker.yml:212:            test -x /opt/sophia/toolkit/bin/hermes-acp
+.github\workflows\docker.yml:213:            test -x /opt/sophia/toolkit/display/bin/a11y-cli
+.github\workflows\docker.yml:214:            sh -n /opt/sophia/scripts/display-prepare.sh
+.github\workflows\docker.yml:215:            sh -n /opt/sophia/scripts/display-apply-style.sh
+.github\workflows\docker.yml:216:            sh -n /opt/sophia/scripts/desktop-style.sh
+cmd\bridge\display.go:29:	toolkitXvncPath       = "/opt/sophia/toolkit/display/bin/Xvnc"
+cmd\bridge\display.go:30:	toolkitXkbcompPath    = "/opt/sophia/toolkit/display/bin/xkbcomp"
+cmd\bridge\display.go:31:	toolkitXsetrootPath   = "/opt/sophia/toolkit/display/bin/xsetroot"
+cmd\bridge\display.go:32:	toolkitTwmPath        = "/opt/sophia/toolkit/display/bin/twm"
+cmd\bridge\display.go:33:	toolkitXtermPath      = "/opt/sophia/toolkit/display/bin/xterm"
+cmd\bridge\display.go:40:	desktopStylePath      = "/opt/sophia/scripts/desktop-style.sh"
+cmd\bridge\main.go:33:	_ = os.Setenv("PATH", os.Getenv("PATH")+":/opt/sophia/toolkit/bin")
+devenv\docker-compose.yml:152:      - sophia_data:/opt/sophia/data
+devenv\docker-compose.yml:156:      - ../.cache/sophia/workspace-debian.tar:/opt/sophia/dev-images/workspace-debian.tar:ro
+devenv\docker-compose.yml:200:      - sophia_data:/opt/sophia/data
+devenv\Dockerfile.server:31:  && mkdir -p /etc/cni/net.d /var/lib/cni /run/containerd /var/lib/containerd /opt/sophia/data /opt/sophia/runtime
+devenv\Dockerfile.server:64:VOLUME ["/var/lib/containerd", "/opt/sophia/data"]
+docker\Dockerfile.server:101:COPY --from=bridge-builder /out/bridge /opt/sophia/runtime/bridge
+docker\Dockerfile.server:113:RUN mkdir -p /opt/sophia/data /run/containerd /var/lib/containerd
+docker\Dockerfile.server:115:VOLUME ["/var/lib/containerd", "/opt/sophia/data"]
+docker\Dockerfile.workspace:32:    /tmp/sophia-toolkit/install.sh /opt/sophia/toolkit "${TARGETARCH:-amd64}"
+docker\Dockerfile.workspace:33:COPY --from=a11y-cli-builder /out-a11y-cli /opt/sophia/toolkit/display/bin/a11y-cli
+docker\Dockerfile.workspace:34:RUN chmod 0755 /opt/sophia/toolkit/display/bin/a11y-cli
+docker\Dockerfile.workspace:55:    SOPHIA_TOOLKIT_DIR=/opt/sophia/toolkit \
+docker\Dockerfile.workspace:56:    PATH=/opt/sophia/toolkit/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+docker\Dockerfile.workspace:76:    mkdir -p /data /tmp/.X11-unix /opt/sophia/scripts; \
+docker\Dockerfile.workspace:80:COPY --from=toolkit-builder /opt/sophia/toolkit /opt/sophia/toolkit
+docker\Dockerfile.workspace:81:COPY scripts/desktop-style.sh scripts/display-apply-style.sh scripts/display-prepare.sh /opt/sophia/scripts/
+docker\Dockerfile.workspace:82:COPY docker/workspace-contract.json /opt/sophia/workspace-contract.json
+docker\Dockerfile.workspace:83:RUN chmod 0755 /opt/sophia/scripts/*.sh \
+docker\Dockerfile.workspace:84:  && test -x /opt/sophia/toolkit/bin/node \
+docker\Dockerfile.workspace:85:  && test -x /opt/sophia/toolkit/bin/python3 \
+docker\Dockerfile.workspace:86:  && test -x /opt/sophia/toolkit/bin/uv \
+docker\Dockerfile.workspace:87:  && test -x /opt/sophia/toolkit/display/bin/a11y-cli
+internal\agent\runtime\acp\client\client_test.go:79:	env := []string{"NPM_CONFIG_CACHE=/data/.sophia/acp/npm-cache", "SSL_CERT_FILE=/opt/sophia/toolkit/certs/ca-certificates.crt"}
+internal\agent\runtime\acp\client\process.go:21:	defaultContainerPath = "/opt/sophia/toolkit/bin:/usr/local/bin:/usr/bin:/bin"
+internal\agent\runtime\acp\client\process.go:22:	containerToolkitBin  = "/opt/sophia/toolkit/bin"
+internal\agent\runtime\acp\adapter_upgrade.go:18:	containerToolkitCABundle   = "/opt/sophia/toolkit/certs/ca-certificates.crt"
+internal\agent\runtime\acp\sessionpool_test.go:1687:		"SSL_CERT_FILE=/opt/sophia/toolkit/certs/ca-certificates.crt",
+internal\agent\runtime\acp\sessionpool_test.go:3264:	input.Command = strings.ReplaceAll(input.Command, "/opt/sophia/toolkit/bin", s.binDir)
+internal\agent\runtime\acp\sessionpool_test.go:3266:		input.Env[index] = strings.ReplaceAll(item, "/opt/sophia/toolkit/bin", s.binDir)
+internal\agent\runtime\session\acceptance\testdata\compose.override.yml:26:      - session_runtime_sophia_data_a:/opt/sophia/data
+internal\agent\runtime\session\acceptance\testdata\compose.override.yml:29:      - ../.cache/sophia/workspace-debian.tar:/opt/sophia/dev-images/workspace-debian.tar:ro
+internal\agent\runtime\session\acceptance\testdata\compose.override.yml:53:      - session_runtime_sophia_data_b:/opt/sophia/data
+internal\agent\runtime\session\acceptance\testdata\compose.override.yml:54:      - ../.cache/sophia/workspace-debian.tar:/opt/sophia/dev-images/workspace-debian.tar:ro
+internal\agent\tool\browser.go:611:	result, err := client.Exec(ctx, "/bin/sh /opt/sophia/scripts/display-prepare.sh", "/", computerDisplayStartupTimeout)
+internal\agent\tool\browser_test.go:40:	} else if strings.Contains(command, "/opt/sophia/scripts/display-prepare.sh") {
+internal\agent\tool\browser_test.go:95:	if !strings.Contains(server.commands[1], "/opt/sophia/scripts/display-prepare.sh") {
+internal\agent\tool\computer_a11y.go:14:	a11yCLIPath        = "/opt/sophia/toolkit/display/bin/a11y-cli"
+internal\bots\service_test.go:364:		errors.New("missing /opt/sophia/toolkit/bin/node"),
+internal\config\config.go:43:	DefaultRuntimeDir            = "/opt/sophia/runtime"
+internal\config\config_test.go:71:bridge_path = "/opt/sophia/runtime/bridge"
+internal\config\config_test.go:93:	if cfg.Workspace.BridgePath != "/opt/sophia/runtime/bridge" {
+internal\container\containerd\resolv.go:11:	systemdResolvConf  = "/run/systemd/resolve/resolv.conf"
+internal\container\containerd\resolv.go:16:// ResolveConfSource returns a host path to mount as /etc/resolv.conf.
+internal\container\containerd\resolv.go:18:// resolv.conf under dataDir and return that path.
+internal\container\containerd\resolv.go:38:	fallbackPath := filepath.Join(dataDir, "resolv.conf")
+internal\container\containerd\resolv_test.go:18:	preferredPath := filepath.Join(dataDir, "preferred-resolv.conf")
+internal\container\containerd\resolv_test.go:20:		t.Fatalf("failed to seed preferred resolv.conf: %v", err)
+internal\container\containerd\resolv_test.go:50:	preferredPath := filepath.Join(dataDir, "missing-preferred-resolv.conf")
+internal\container\containerd\resolv_test.go:57:	if path != filepath.Join(dataDir, "resolv.conf") {
+internal\container\containerd\resolv_test.go:64:		t.Fatalf("failed to read fallback resolv.conf: %v", err)
+internal\container\containerd\resolv_test.go:67:		t.Fatalf("unexpected fallback resolv.conf contents: %q", string(content))
+internal\container\containerd\resolv_test.go:72:		t.Fatalf("failed to stat fallback resolv.conf: %v", err)
+internal\container\containerd\resolv_test.go:81:	fallbackPath := filepath.Join(dataDir, "resolv.conf")
+internal\container\containerd\resolv_test.go:83:		t.Fatalf("failed to seed fallback resolv.conf: %v", err)
+internal\container\containerd\resolv_test.go:86:	path, err := resolveConfSource(dataDir, filepath.Join(dataDir, "missing-preferred-resolv.conf"))
+internal\container\containerd\resolv_test.go:96:		t.Fatalf("failed to stat fallback resolv.conf: %v", err)
+internal\container\host.go:11:	systemdResolvConf  = "/run/systemd/resolve/resolv.conf"
+internal\container\host.go:16:// ResolveConfSource returns a host path to mount as /etc/resolv.conf.
+internal\container\host.go:36:	fallbackPath := filepath.Join(dataDir, "resolv.conf")
+internal\container\host_test.go:18:	preferredPath := filepath.Join(dataDir, "preferred-resolv.conf")
+internal\container\host_test.go:33:	path, err := resolveConfSource(dataDir, filepath.Join(dataDir, "missing-resolv.conf"))
+internal\handlers\display.go:223:	displayPrepareScriptPath     = "/opt/sophia/scripts/display-prepare.sh"
+internal\handlers\display.go:224:	displayApplyStyleScriptPath  = "/opt/sophia/scripts/display-apply-style.sh"
+internal\handlers\display.go:582:  has_exec /opt/sophia/toolkit/display/bin/Xvnc ||
+internal\handlers\display.go:583:    has_exec /opt/sophia/toolkit/display/bin/twm ||
+internal\handlers\display.go:584:    has_exec /opt/sophia/toolkit/display/root/usr/bin/Xvnc ||
+internal\handlers\display.go:585:    has_exec /opt/sophia/toolkit/display/root/usr/bin/twm
+internal\handlers\display.go:595:    has_exec /opt/sophia/toolkit/display/bin/Xvnc ||
+internal\handlers\display.go:596:    has_exec /opt/sophia/toolkit/display/root/usr/bin/Xvnc ||
+internal\handlers\display.go:604:    has_exec /opt/sophia/toolkit/display/bin/twm ||
+internal\handlers\display.go:605:    has_exec /opt/sophia/toolkit/display/root/usr/bin/twm ||
+internal\handlers\display.go:616:  a11y=/opt/sophia/toolkit/display/bin/a11y-cli
+internal\handlers\display_test.go:70:	if got := displayPrepareCommand(); got != "/bin/sh /opt/sophia/scripts/display-prepare.sh" {
+internal\handlers\display_test.go:149:	if !strings.Contains(prepareScript, "/opt/sophia/scripts/display-apply-style.sh --check") ||
+internal\handlers\display_test.go:150:		!strings.Contains(prepareScript, "/opt/sophia/scripts/display-apply-style.sh --ensure") {
+internal\handlers\display_test.go:154:		!strings.Contains(prepareScript, `/bin/sh /opt/sophia/scripts/display-apply-style.sh --check`) {
+internal\handlers\display_test.go:157:	if strings.Contains(prepareScript, `nohup /bin/sh /opt/sophia/scripts/desktop-style.sh`) {
+internal\handlers\display_test.go:166:	if !strings.Contains(prepareScript, `/bin/sh /opt/sophia/scripts/display-apply-style.sh --ensure`) {
+internal\handlers\display_test.go:239:	if got := displayApplyStyleCommand(); got != "/bin/sh /opt/sophia/scripts/display-apply-style.sh --if-needed" {
+internal\handlers\display_test.go:248:	if !strings.Contains(applyScript, `desktop_style_script="${SOPHIA_DESKTOP_STYLE_SCRIPT:-/opt/sophia/scripts/desktop-style.sh}"`) ||
+internal\handlers\display_test.go:336:	if got := displayStyleStatusCommand(); got != "/bin/sh /opt/sophia/scripts/display-apply-style.sh --check" {
+internal\handlers\display_test.go:366:		!strings.Contains(dockerfile, "COPY --from=toolkit-builder /opt/sophia/toolkit /opt/sophia/toolkit") {
+internal\handlers\display_test.go:369:	if !strings.Contains(dockerfile, "COPY scripts/desktop-style.sh scripts/display-apply-style.sh scripts/display-prepare.sh /opt/sophia/scripts/") {
+internal\handlers\display_test.go:372:	if !strings.Contains(dockerfile, "COPY docker/workspace-contract.json /opt/sophia/workspace-contract.json") {
+internal\handlers\error_pilot_test.go:27:		errors.New("missing /opt/sophia/toolkit/bin/node"),
+internal\handlers\error_pilot_test.go:99:		errors.New("missing /opt/sophia/toolkit/bin/node"),
+internal\handlers\error_pilot_test.go:117:	if strings.Contains(event.Message, "/opt/sophia") || strings.Contains(event.Detail, "/opt/sophia") {
+internal\handlers\users_create_bot_stream_test.go:257:		errors.New("missing /opt/sophia/toolkit/bin/node"),
+internal\handlers\users_create_bot_stream_test.go:289:	if strings.Contains(message, "/opt/sophia") {
+internal\workspace\contract.go:15:	WorkspaceContractPath           = "/opt/sophia/workspace-contract.json"
+internal\workspace\contract.go:17:	WorkspaceToolkitDir             = "/opt/sophia/toolkit"
+internal\workspace\contract.go:18:	WorkspaceScriptsDir             = "/opt/sophia/scripts"
+internal\workspace\manager.go:551:			Destination: "/etc/resolv.conf",
+internal\workspace\manager.go:557:			Destination: "/opt/sophia/bridge",
+internal\workspace\manager.go:603:		Cmd:        []string{"/opt/sophia/bridge"},
+internal\workspace\manager_legacy_test.go:243:		if mount.Destination == "/opt/sophia/bridge" {
+docker-compose.yml:51:      - memoh_data:/opt/sophia/data
+docker-compose.yml:87:      - memoh_data:/opt/sophia/data
+docker-compose.yml:129:      - memoh_data:/opt/sophia/data
+
+

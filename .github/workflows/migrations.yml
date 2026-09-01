@@ -1,0 +1,104 @@
+name: Migrations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/migrations.yml"
+      - "sqlc.yaml"
+      - "db/postgres/migrations/**"
+      - "db/postgres/queries/**"
+      - "db/pgvector/migrations/**"
+      - "db/pgvector/queries/**"
+      - "internal/db/postgres/sqlc/**"
+      - "internal/db/pgvector/**"
+      - "internal/db/*migration*_test.go"
+      - "internal/db/team_*_integration_test.go"
+      - "internal/db/*postgres_integration_test.go"
+      - "internal/chat/message/*postgres_integration_test.go"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/migrations.yml"
+      - "sqlc.yaml"
+      - "db/postgres/migrations/**"
+      - "db/postgres/queries/**"
+      - "db/pgvector/migrations/**"
+      - "db/pgvector/queries/**"
+      - "internal/db/postgres/sqlc/**"
+      - "internal/db/pgvector/**"
+      - "internal/db/*migration*_test.go"
+      - "internal/db/team_*_integration_test.go"
+      - "internal/db/*postgres_integration_test.go"
+      - "internal/chat/message/*postgres_integration_test.go"
+
+concurrency:
+  group: migrations-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  postgres:
+    name: PostgreSQL migrations
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: sophia_test
+          POSTGRES_USER: sophia
+          POSTGRES_PASSWORD: sophia123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U sophia"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Verify generated PostgreSQL queries
+        run: |
+          go run github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1 generate
+          untracked="$(git ls-files --others --exclude-standard -- internal/db/postgres/sqlc internal/db/pgvector/sqlc)"
+          if [ -n "$untracked" ]; then
+            printf 'Untracked generated SQL files:\n%s\n' "$untracked"
+            exit 1
+          fi
+          git diff --exit-code -- internal/db/postgres/sqlc internal/db/pgvector/sqlc
+
+      - name: Build
+        run: go build -o sophia-server ./cmd/agent
+
+      - name: Generate config
+        run: |
+          cat > config.toml <<'TOML'
+          [postgres]
+          host = "127.0.0.1"
+          port = 5432
+          user = "sophia"
+          password = "sophia123"
+          database = "sophia_test"
+          sslmode = "disable"
+          TOML
+
+      - name: Migrate up
+        run: ./sophia-server migrate up
+
+      - name: Migrate down
+        run: ./sophia-server migrate down
+
+      - name: Migrate up (idempotent)
+        run: ./sophia-server migrate up
+
+      - name: Test PostgreSQL query and compaction lifecycle paths
+        env:
+          TEST_POSTGRES_DSN: postgres://sophia:sophia123@127.0.0.1:5432/sophia_test?sslmode=disable
+        run: go test -tags=integration -count=1 ./internal/db ./internal/chat/message

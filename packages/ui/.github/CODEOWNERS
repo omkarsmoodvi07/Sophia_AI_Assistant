@@ -1,0 +1,6 @@
+# UI component library ownership
+*          @sophiaai/web
+/.github/  @sophiaai/maintainers
+
+# Machine-maintained dependency lock intentionally has no code owner.
+/pnpm-lock.yaml

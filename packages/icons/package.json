@@ -1,0 +1,22 @@
+{
+  "name": "@sophiaai/icon",
+  "version": "0.17.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sophiaai/Sophia.git",
+    "directory": "packages/icons"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "tsx scripts/generate.ts"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.26"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
+}

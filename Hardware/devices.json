@@ -1,0 +1,70 @@
+{
+  "_comment": [
+    "This is the only file you edit to give Sophia a body.",
+    "",
+    "One entry per physical thing you have wired up. Save the file, run",
+    "  python tools/generate_firmware_config.py",
+    "flash the board once, and Sophia can use it. No new code, ever, for a new",
+    "sensor or a new output - the firmware reads this table, it does not hard-code",
+    "anything.",
+    "",
+    "  name   what Sophia calls it. Lowercase, no spaces. Say it out loud first:",
+    "         'turn on the desk lamp' works, 'toggle gpio5' does not.",
+    "  type   digital_out | digital_in | analog_in | pwm_out | ultrasonic",
+    "  pin    the GPIO number printed on the board, not the physical pin position.",
+    "  pin2   only for ultrasonic (trig, echo). Ignored otherwise.",
+    "  invert true if the hardware is active-low, which most relay boards are.",
+    "         Sophia still says 'on' and means on; this flips it for her.",
+    "  scale  optional multiplier for analog_in, so she reads 23.4 degrees",
+    "  offset optional, applied after scale: value = raw * scale + offset",
+    "  about  what it is, in plain words. This is what she is told it does, so",
+    "         write it the way you would explain it to a person.",
+    "",
+    "Delete the examples below. They are there to show the shape, and every one",
+    "of them is commented out by being inside _examples.",
+    ""
+  ],
+  "board": {
+    "kind": "esp32",
+    "serial_port": "COM5",
+    "baud": 115200
+  },
+  "devices": [],
+  "_examples": [
+    {
+      "name": "desk_lamp",
+      "type": "digital_out",
+      "pin": 5,
+      "invert": true,
+      "about": "The lamp on my desk, through a relay board."
+    },
+    {
+      "name": "status_led",
+      "type": "pwm_out",
+      "pin": 18,
+      "about": "An LED I use to show she is listening. 0-255."
+    },
+    {
+      "name": "desk_button",
+      "type": "digital_in",
+      "pin": 19,
+      "invert": true,
+      "about": "A push button wired to ground. Reads 1 while held down."
+    },
+    {
+      "name": "room_temp",
+      "type": "analog_in",
+      "pin": 34,
+      "scale": 0.0805,
+      "offset": -50,
+      "about": "Analog temperature sensor on the wall. Reads in degrees C."
+    },
+    {
+      "name": "doorway",
+      "type": "ultrasonic",
+      "pin": 12,
+      "pin2": 14,
+      "about": "Ultrasonic sensor pointed at the doorway. Reads distance in cm."
+    }
+  ]
+}

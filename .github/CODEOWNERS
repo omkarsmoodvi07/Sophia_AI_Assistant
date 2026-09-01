@@ -1,0 +1,144 @@
+# Sophia code ownership
+#
+# Keep broad defaults above more specific rules. CODEOWNERS uses the last
+# matching pattern, so domain rules below override the backend defaults.
+
+# Repository governance and shared development infrastructure
+/.github/                        @sophiaai/maintainers
+/.agents/                        @sophiaai/maintainers
+/.claude/                        @sophiaai/maintainers
+/.husky/                         @sophiaai/maintainers
+/.vscode/                        @sophiaai/maintainers
+/.zed/                           @sophiaai/maintainers
+/AGENTS.md                       @sophiaai/maintainers
+/CLAUDE.md                       @sophiaai/maintainers
+/CONTRIBUTING.md                 @sophiaai/maintainers
+/LICENSE                         @sophiaai/maintainers
+/README*.md                      @sophiaai/maintainers
+/.gitattributes                  @sophiaai/maintainers
+/.gitignore                      @sophiaai/maintainers
+/.gitmodules                     @sophiaai/maintainers
+/.golangci.yml                   @sophiaai/maintainers
+/bump.config.ts                  @sophiaai/maintainers
+/go.mod                          @sophiaai/maintainers
+/mise.toml                       @sophiaai/maintainers
+/package.json                    @sophiaai/maintainers
+/pnpm-workspace.yaml             @sophiaai/maintainers
+/scripts/                        @sophiaai/maintainers
+/assets/                         @sophiaai/maintainers
+/docs/                           @sophiaai/maintainers
+
+# Backend defaults and API contracts
+/.air.toml                       @sophiaai/backend
+/cmd/                            @sophiaai/backend
+/conf/                           @sophiaai/backend
+/db/                             @sophiaai/backend
+/internal/                       @sophiaai/backend
+/packages/sdk/                   @sophiaai/backend
+/openapi-ts.config.ts            @sophiaai/backend
+/sqlc.yaml                       @sophiaai/backend
+
+# Agent loop, orchestration, context, and approval flow
+/internal/agent/                 @sophiaai/agent-loop
+/internal/chat/                  @sophiaai/agent-loop
+/internal/healthcheck/checkers/mcp/ @sophiaai/agent-loop
+/internal/heartbeat/             @sophiaai/agent-loop
+/internal/hooks/                 @sophiaai/agent-loop
+/internal/mcp/                   @sophiaai/agent-loop
+/internal/memory/                @sophiaai/agent-loop
+/internal/prune/                 @sophiaai/agent-loop
+/internal/schedule/              @sophiaai/agent-loop
+/internal/skills/                @sophiaai/agent-loop
+
+# Channels, messaging, identities, and commands
+/internal/acl/                   @sophiaai/channel
+/internal/channel/               @sophiaai/channel
+/internal/channelaccess/         @sophiaai/channel
+/internal/chat/event/            @sophiaai/channel
+/internal/chat/message/          @sophiaai/channel
+/internal/command/               @sophiaai/channel
+/internal/commandsyntax/         @sophiaai/channel
+/internal/email/                 @sophiaai/channel
+/internal/healthcheck/checkers/channel/ @sophiaai/channel
+/internal/i18n/                  @sophiaai/channel
+/internal/identity/              @sophiaai/channel
+/internal/messageconv/           @sophiaai/channel
+/internal/messaging/             @sophiaai/channel
+/internal/slash/                 @sophiaai/channel
+/internal/webhooktunnel/         @sophiaai/channel
+
+# Workspace runtime, ACP, containers, display, and bridge tooling
+/.dockerignore                   @sophiaai/runtime
+/Cargo.toml                      @sophiaai/runtime
+/DEPLOYMENT.md                   @sophiaai/runtime
+/docker-compose*.yml             @sophiaai/runtime
+/crates/                         @sophiaai/runtime
+/devenv/                         @sophiaai/runtime
+/docker/                         @sophiaai/runtime
+/packages/runtime/               @sophiaai/runtime
+/cmd/bridge/                     @sophiaai/runtime
+/cmd/gen-bridge-mtls/            @sophiaai/runtime
+/internal/agent/adapter/acpprofile/ @sophiaai/runtime
+/internal/agent/decision/feedback/ @sophiaai/runtime
+/internal/agent/runtime/acp/     @sophiaai/runtime
+/internal/agent/runtime/session/ @sophiaai/runtime
+/internal/boot/                  @sophiaai/runtime
+/internal/container/             @sophiaai/runtime
+/internal/display/               @sophiaai/runtime
+/internal/network/               @sophiaai/runtime
+/internal/storage/               @sophiaai/runtime
+/internal/userruntime/           @sophiaai/runtime
+/internal/workspace/             @sophiaai/runtime
+/internal/workspacetemplate/     @sophiaai/runtime
+
+# Domain-specific repository scripts. Unlisted setup and release scripts keep
+# the maintainers default declared above.
+/scripts/db-*.sh                          @sophiaai/backend
+/scripts/sync-openrouter-models.sh        @sophiaai/backend
+/scripts/display-*                        @sophiaai/runtime
+/scripts/gen-bridge-mtls.sh                @sophiaai/runtime
+/scripts/prepare-dev-workspace-image.sh    @sophiaai/runtime
+/scripts/check-patched-deps.mjs            @sophiaai/web
+/scripts/check-ui-contract.mjs             @sophiaai/web
+/scripts/ui-*-baseline.json                @sophiaai/web
+/scripts/desktop-*.sh                      @sophiaai/desktop
+
+# Web client and shared browser-facing packages
+/apps/web/                       @sophiaai/web
+/packages/icons/                 @sophiaai/web
+/packages/ui                     @sophiaai/web
+/patches/                        @sophiaai/web
+
+# Desktop client and native packaging
+/apps/desktop/                   @sophiaai/desktop
+
+# Shared frontend configuration requests both teams for review. CODEOWNERS
+# approval semantics remain any-one-of while review enforcement is advisory.
+/packages/config/                @sophiaai/web @sophiaai/desktop
+/eslint.config.mjs               @sophiaai/web @sophiaai/desktop
+/tsconfig.json                   @sophiaai/web @sophiaai/desktop
+/vitest.config.ts                @sophiaai/web @sophiaai/desktop
+
+# Generated outputs and machine-maintained lock files intentionally have no
+# code owner. Review their source definitions, generators, or manifests instead.
+/Cargo.lock
+/go.sum
+/pnpm-lock.yaml
+/skills-lock.json
+/spec/
+/internal/db/postgres/sqlc/
+/internal/workspace/bridgepb/bridge.pb.go
+/internal/workspace/bridgepb/bridge_grpc.pb.go
+/packages/sdk/src/
+/packages/icons/src/
+/apps/web/src/components/file-manager/seti/seti.woff
+/apps/web/src/components/file-manager/seti/vs-seti-icon-theme.json
+/apps/desktop/build/
+/apps/desktop/resources/icon.png
+/apps/desktop/resources/tray-icon.png
+/apps/desktop/icon-tools/pnpm-lock.yaml
+
+# These icon components are hand-maintained exceptions inside generated output.
+/packages/icons/src/icons/Codex.vue       @sophiaai/web
+/packages/icons/src/icons/CodexColor.vue  @sophiaai/web
+/packages/icons/src/icons/Misskey.vue     @sophiaai/web
