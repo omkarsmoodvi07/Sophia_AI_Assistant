@@ -21,3 +21,6 @@ resources/server/
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# Ignore generated Electron build artifacts
+build/
