@@ -152,3 +152,5 @@ apps/desktop/build/
 
 *.backup
 *.before-sophia-voices
+
+apps/desktop/build/
